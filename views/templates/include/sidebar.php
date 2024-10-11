@@ -37,7 +37,7 @@
           </a>
         </li>
         
-        <?php if ($dataUser['jabatan'] == 'Administrator' || $dataUser['jabatan'] == 'Pimpinan' || $dataUser['jabatan'] == 'Camat' || $dataUser['jabatan'] == 'Kepala Bidang' || $dataUser['jabatan'] == 'Kepala Desa' || $dataUser['jabatan'] == 'Operator Desa'): ?>
+        <?php if ($dataUser['jabatan'] == 'Administrator' || $dataUser['jabatan'] == 'Pimpinan' || $dataUser['jabatan'] == 'Camat' || $dataUser['jabatan'] == 'Kepala Bidang' || $dataUser['jabatan'] == 'Kepala Desa' || $dataUser['jabatan'] == 'Sekretaris Desa' || $dataUser['jabatan'] == 'Operator Desa'): ?>
           <?php 
             $this->db->order_by('jenis_laporan', 'asc');
             $jenis_laporan = $this->db->get('jenis_laporan')->result_array(); 
@@ -214,7 +214,7 @@
           </li>
         <?php endif ?>
         
-        <?php if ($dataUser['jabatan'] == 'Kepala Desa'): ?>
+        <?php if ($dataUser['jabatan'] == 'Kepala Desa' || $dataUser['jabatan'] == 'Sekretaris Desa'): ?>
           <li class="nav-item">
             <?php if (
               $_SERVER['REQUEST_URI'] == '/laporan_kab_bogor/user' || 

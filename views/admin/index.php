@@ -8,10 +8,10 @@
 		<div class="col">
 			<div class="card">
 				<div class="card-header">
-					<h3 class="m-0"><i class="fas fa-fw fa-tachometer-alt"></i> Dashboard <?= $dataUser['jabatan']; ?> <?= ($dataUser['jabatan'] == 'Camat') ? ' - ' . $dataUser['nama_kecamatan'] : '' ?> <?= ($dataUser['jabatan'] == 'Kepala Desa' || $dataUser['jabatan'] == 'Operator Desa') ? ' - ' . $dataUser['nama_kelurahan'] : '' ?></h3>
+					<h3 class="m-0"><i class="fas fa-fw fa-tachometer-alt"></i> Dashboard <?= $dataUser['jabatan']; ?> <?= ($dataUser['jabatan'] == 'Camat') ? ' - ' . $dataUser['nama_kecamatan'] : '' ?> <?= ($dataUser['jabatan'] == 'Kepala Desa' || $dataUser['jabatan'] == 'Sekretaris Desa' || $dataUser['jabatan'] == 'Operator Desa') ? ' - ' . $dataUser['nama_kelurahan'] : '' ?></h3>
 				</div>
 				<div class="card-body">
-					<?php if ($dataUser['jabatan'] == 'Administrator' || $dataUser['jabatan'] == 'Pimpinan' || $dataUser['jabatan'] == 'Camat' || $dataUser['jabatan'] == 'Kepala Desa'): ?>
+					<?php if ($dataUser['jabatan'] == 'Administrator' || $dataUser['jabatan'] == 'Pimpinan' || $dataUser['jabatan'] == 'Camat' || $dataUser['jabatan'] == 'Kepala Desa' || $dataUser['jabatan'] == 'Sekretaris Desa'): ?>
 						<ul class="nav nav-tabs" id="myTab" role="tablist">
 						  <?php 
 						  $active = true; 
@@ -56,7 +56,7 @@
 												$this->db->join('kelurahan', 'laporan.id_kelurahan = kelurahan.id_kelurahan', 'left');
 												$this->db->join('kecamatan', 'kelurahan.id_kecamatan = kecamatan.id_kecamatan', 'left');
 												$jml_laporan_belum_divalidasi = $this->db->get_where('laporan', ['id_jenis_laporan' => $djl['id_jenis_laporan'], 'kelurahan.id_kecamatan' => $dataUser['id_kecamatan'], 'status_laporan' => 'Belum Divalidasi'])->num_rows();
-											} elseif ($dataUser['jabatan'] == 'Kepala Desa') {
+											} elseif ($dataUser['jabatan'] == 'Kepala Desa' || $dataUser['jabatan'] == 'Sekretaris Desa') {
 												$this->db->join('kelurahan', 'laporan.id_kelurahan = kelurahan.id_kelurahan', 'left');
 												$this->db->join('kecamatan', 'kelurahan.id_kecamatan = kecamatan.id_kecamatan', 'left');
 												$jml_laporan = $this->db->get_where('laporan', ['id_jenis_laporan' => $djl['id_jenis_laporan'], 'kelurahan.id_kecamatan' => $dataUser['id_kecamatan']])->num_rows();

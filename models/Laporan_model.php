@@ -110,6 +110,26 @@ class Laporan_model extends CI_Model
 		return $this->db->get('laporan')->result_array();
 	}
 
+	public function getLaporanBelumDivalidasiByIdKecamatan($id_kecamatan = "", $nama_jenis_laporan = "")
+	{
+		$this->db->join('user', 'laporan.id_user=user.id_user', 'left');
+		$this->db->join('jenis_laporan', 'laporan.id_jenis_laporan=jenis_laporan.id_jenis_laporan', 'left');
+		$this->db->join('kelurahan', 'laporan.id_kelurahan=kelurahan.id_kelurahan', 'left');
+		$this->db->join('kecamatan', 'kelurahan.id_kecamatan=kecamatan.id_kecamatan', 'left');
+		$this->db->join('bidang', 'jenis_laporan.id_bidang=bidang.id_bidang', 'left');
+		$this->db->where('laporan.status_laporan', 'Belum Divalidasi');
+		$this->db->order_by('tgl_laporan', 'desc');
+		
+		if ($id_kecamatan != "") {
+	        $this->db->where('kecamatan.id_kecamatan', $id_kecamatan);
+	    }
+	    if ($nama_jenis_laporan != "") {
+	        $this->db->where('jenis_laporan.jenis_laporan', $nama_jenis_laporan);
+	    }
+
+		return $this->db->get('laporan')->result_array();
+	}
+
 	public function getLaporanByIdKelurahan($id_kelurahan = "", $nama_jenis_laporan = "")
 	{
 		$this->db->join('user', 'laporan.id_user=user.id_user', 'left');
@@ -125,6 +145,27 @@ class Laporan_model extends CI_Model
 	    if ($nama_jenis_laporan != "") {
 	        $this->db->where('jenis_laporan.jenis_laporan', $nama_jenis_laporan);
 	    }
+
+		return $this->db->get('laporan')->result_array();
+	}
+
+	public function getLaporanBelumDivalidasiByIdKelurahan($id_kelurahan = "", $nama_jenis_laporan = "")
+	{
+		$this->db->join('user', 'laporan.id_user=user.id_user', 'left');
+		$this->db->join('jenis_laporan', 'laporan.id_jenis_laporan=jenis_laporan.id_jenis_laporan', 'left');
+		$this->db->join('kelurahan', 'laporan.id_kelurahan=kelurahan.id_kelurahan', 'left');
+		$this->db->join('kecamatan', 'kelurahan.id_kecamatan=kecamatan.id_kecamatan', 'left');
+		$this->db->join('bidang', 'jenis_laporan.id_bidang=bidang.id_bidang', 'left');
+		$this->db->order_by('tgl_laporan', 'desc');
+		
+		if ($id_kelurahan != "") {
+	        $this->db->where('kelurahan.id_kelurahan', $id_kelurahan);
+	    }
+	    if ($nama_jenis_laporan != "") {
+	        $this->db->where('jenis_laporan.jenis_laporan', $nama_jenis_laporan);
+	    }
+
+		$this->db->where('laporan.status_laporan', 'Belum Divalidasi');
 
 		return $this->db->get('laporan')->result_array();
 	}
@@ -176,6 +217,36 @@ class Laporan_model extends CI_Model
 	    if ($nama_jenis_laporan != "") {
 	        $this->db->where('jenis_laporan.jenis_laporan', $nama_jenis_laporan);
 	    }
+
+	    return $this->db->get('laporan')->result_array();
+	}
+
+	public function getLaporanBelumDivalidasiByIdBidang($id_bidang, $id_kecamatan = "", $id_kelurahan = "", $nama_jenis_laporan = "")
+	{
+	    $this->db->join('user', 'laporan.id_user=user.id_user', 'left');
+	    $this->db->join('jenis_laporan', 'laporan.id_jenis_laporan=jenis_laporan.id_jenis_laporan', 'left');
+	    $this->db->join('kelurahan', 'laporan.id_kelurahan=kelurahan.id_kelurahan', 'left');
+	    $this->db->join('kecamatan', 'kelurahan.id_kecamatan=kecamatan.id_kecamatan', 'left');
+		$this->db->join('bidang', 'jenis_laporan.id_bidang=bidang.id_bidang', 'left');
+	    $this->db->order_by('tgl_laporan', 'desc');
+
+	    if ($id_bidang != "") {
+	        $this->db->where('jenis_laporan.id_bidang', $id_bidang);
+	    }
+
+	    if ($id_kecamatan != "") {
+	        $this->db->where('kecamatan.id_kecamatan', $id_kecamatan);
+	    }
+	    
+	    if ($id_kelurahan != "") {
+	        $this->db->where('kelurahan.id_kelurahan', $id_kelurahan);
+	    }
+
+	    if ($nama_jenis_laporan != "") {
+	        $this->db->where('jenis_laporan.jenis_laporan', $nama_jenis_laporan);
+	    }
+
+		$this->db->where('laporan.status_laporan', 'Belum Divalidasi');
 
 	    return $this->db->get('laporan')->result_array();
 	}
@@ -303,6 +374,20 @@ class Laporan_model extends CI_Model
 		return $this->db->get_where('laporan', ['id_laporan' => $id_laporan])->row_array();	
 	}
 
+	public function getRevisiLaporanById($id_laporan)
+	{
+		$this->db->join('user', 'revisi_laporan.id_user=user.id_user', 'left');
+		$this->db->order_by('id_revisi_laporan', 'asc');
+		return $this->db->get_where('revisi_laporan', ['id_laporan' => $id_laporan])->result_array();
+	}
+
+	public function getValidasiLaporanById($id_laporan)
+	{
+		$this->db->join('user', 'validasi_laporan.id_user=user.id_user', 'left');
+		$this->db->order_by('id_validasi_laporan', 'asc');
+		return $this->db->get_where('validasi_laporan', ['id_laporan' => $id_laporan])->row_array();
+	}
+
 	public function getLaporanByKeyword($search)
 	{
 	    $this->db->join('user', 'laporan.id_user=user.id_user', 'left');
@@ -418,45 +503,6 @@ class Laporan_model extends CI_Model
 
 		$this->db->order_by('tgl_laporan', 'desc');
 		return $this->db->get_where('laporan', ['laporan.id_kelurahan' => $id_kelurahan])->result_array();
-	}
-
-	public function getValidasiLaporanByLaporanId($id_laporan)
-	{
-		$this->db->join('user', 'validasi_laporan.id_user=user.id_user', 'left');
-		$this->db->order_by('id_validasi_laporan', 'asc');
-		return $this->db->get_where('validasi_laporan', ['id_laporan' => $id_laporan])->result_array();
-	}
-
-	public function getLastValidasiLaporanByLaporanId($id_laporan)
-	{
-		$this->db->join('user', 'validasi_laporan.id_user=user.id_user', 'left');
-		$this->db->order_by('id_validasi_laporan', 'desc');
-		return $this->db->get_where('validasi_laporan', ['id_laporan' => $id_laporan])->row_array();
-	}
-
-	public function validasiLaporan($id_laporan)
-	{
-		$dataUser = $this->admo->getDataUserAdmin();
-		
-		$data_status = [
-			'status_laporan' => $this->input->post('status_laporan', true)
-		];
-
-		$this->db->update('laporan', $data_status, ['id_laporan' => $id_laporan]);
-
-		$data = [
-			'tgl_validasi_laporan' 	=> date('Y-m-d\TH:i:s'),
-			'catatan_validasi' 		=> $this->input->post('catatan_validasi', true),
-			'id_laporan' 			=> $id_laporan,
-			'id_user'				=> $dataUser['id_user']
-		];
-		
-		$this->db->insert('validasi_laporan', $data);
-
-		$isi_log = 'Laporan ' . $data['judul_laporan'] . ' berhasil divalidasi oleh ' . $dataUser['username'];
-		$this->lomo->addLog($isi_log, $dataUser['id_user']);
-		$this->session->set_flashdata('message-success', $isi_log);
-		redirect('laporan/detailLaporan/' . $id_laporan);
 	}
 
 	public function transparansiLaporan($id_laporan)
@@ -607,8 +653,6 @@ class Laporan_model extends CI_Model
 	    }
 	}
 
-
-	
 	public function editLaporan($id_laporan)
 	{
 	    $dataUser = $this->admo->getDataUserAdmin();
@@ -651,18 +695,12 @@ class Laporan_model extends CI_Model
 	        exit;
 	    }
 
-		if ($this->input->post('revisi', true) == 1) {
-		    $status_laporan = 'Belum Divalidasi';
-		} else {
-		    $status_laporan = $data_laporan['status_laporan'];
-		}
-
 	    $data = [
 	        'judul_laporan'    => htmlspecialchars($this->input->post('judul_laporan', true)),
 	        'uraian_laporan'   => htmlspecialchars($this->input->post('uraian_laporan', true)),
 	        'tgl_laporan'      => htmlspecialchars($this->input->post('tgl_laporan', true)),
 	        'tahun_kegiatan'   => htmlspecialchars($this->input->post('tahun_kegiatan', true)),
-	        'status_laporan'   => $status_laporan,
+	        'status_laporan'   => $data_laporan['status_laporan'],
 	        'id_jenis_laporan' => $id_jenis_laporan,
 	        'id_kelurahan'     => $id_kelurahan,
 	        'id_user'          => $dataUser['id_user']
@@ -715,8 +753,151 @@ class Laporan_model extends CI_Model
 	    $this->lomo->addLog($isi_log, $dataUser['id_user']);
 	    $this->session->set_flashdata('message-success', $isi_log);
 	    redirect('laporan/detailLaporan/' . $id_laporan);
+	    exit;
 	}
 
+	public function revisiLaporan($id_laporan)
+	{
+	    $dataUser = $this->admo->getDataUserAdmin();
+	    $isi_log_2 = 'Pengguna ' . $dataUser['username'] . ' mencoba mengubah laporan dengan id ' . $id_laporan;
+	    $this->admo->userPrivilegeDesa('admin', $isi_log_2);
+
+	    $data_laporan = $this->getLaporanById($id_laporan);
+	    
+	    if ($dataUser['jabatan'] == 'Operator Desa') {
+		    if ($data_laporan['id_jenis_laporan'] != $dataUser['id_jenis_laporan']) {
+		    	$isi = 'Akses ditolak! Karena Jenis Laporan ' . $data_laporan['jenis_laporan'] . ' tidak sesuai dengan Pengelola Jenis Laporan! Hubungi Administrator untuk melakukan perubahan';
+	            $this->session->set_flashdata('message-failed', $isi);
+	            $this->lomo->addLog($isi, $dataUser['id_user']);
+	            redirect('laporan/index/' . $dataUser['jenis_laporan']);
+	            exit();
+		    }
+	    }
+
+	    if ($data_laporan['status_laporan'] == 'Valid') {
+	        if ($dataUser['jabatan'] != 'Administrator') {
+	            $isi = 'Akses ditolak! Karena status laporan ' . $data_laporan['status_laporan'] . '! Hubungi Administrator untuk melakukan perubahan';
+	            $this->session->set_flashdata('message-failed', $isi);
+	            $this->lomo->addLog($isi, $dataUser['id_user']);
+	            redirect('laporan/detailLaporan/' . $id_laporan);
+	            exit();
+	        }
+	    }
+
+	    $id_jenis_laporan = $this->input->post('id_jenis_laporan', true);
+	    if ($id_jenis_laporan == 0) {
+	        $this->session->set_flashdata('message-failed', 'Jenis Laporan harus dipilih');
+	        echo "<script>window.history.back();</script>";
+	        exit;
+	    }
+
+	    $id_kelurahan = $this->input->post('id_kelurahan', true);
+	    if ($id_kelurahan == 0) {
+	        $this->session->set_flashdata('message-failed', 'Kelurahan harus dipilih');
+	        echo "<script>window.history.back();</script>";
+	        exit;
+	    }
+
+	    $data_revisi = [
+	    	'tgl_revisi_laporan' => date("Y-m-d H:i:s"),
+	    	'id_laporan' 		 => $id_laporan,
+			'id_user'			 => $dataUser['id_user']
+	    ];
+
+	    $this->db->insert('revisi_laporan', $data_revisi);
+	    $id_revisi_laporan = $this->db->insert_id();
+
+	    $data = [
+	        'judul_laporan'    => htmlspecialchars($this->input->post('judul_laporan', true)),
+	        'uraian_laporan'   => htmlspecialchars($this->input->post('uraian_laporan', true)),
+	        'tgl_laporan'      => htmlspecialchars($this->input->post('tgl_laporan', true)),
+	        'tahun_kegiatan'   => htmlspecialchars($this->input->post('tahun_kegiatan', true)),
+	        'status_laporan'   => $data_laporan['status_laporan'],
+	        'id_jenis_laporan' => $id_jenis_laporan,
+	        'id_kelurahan'     => $id_kelurahan,
+	        'id_user'          => $dataUser['id_user']
+	    ];
+
+	    if ($_FILES['file_laporan']['name'][0] != '') {
+	        $countFiles = count($_FILES['file_laporan']['name']);
+	        $uploadedFiles = [];
+
+	        for ($i = 0; $i < $countFiles; $i++) {
+	            $_FILES['uploadFile']['name'] = $_FILES['file_laporan']['name'][$i]; 
+	            $_FILES['uploadFile']['type'] = $_FILES['file_laporan']['type'][$i];
+	            $_FILES['uploadFile']['size'] = $_FILES['file_laporan']['size'][$i];
+	            $_FILES['uploadFile']['tmp_name'] = $_FILES['file_laporan']['tmp_name'][$i];
+	            $_FILES['uploadFile']['error'] = $_FILES['file_laporan']['error'][$i];
+
+	            $uploadStatus = $this->uploadFile('uploadFile');
+	            if ($uploadStatus != false) {
+	                $uploadedFiles[] = $uploadStatus;
+	            } else {
+	                $this->session->set_flashdata('message-failed', 'File upload failed');
+	                echo "<script>window.history.back();</script>";
+	                exit;
+	            }
+	        }
+
+	        $file_laporan = $this->db->get_where('file_laporan', ['id_laporan' => $id_laporan])->result_array();
+
+	        // Backup data ke tabel file_laporan_lama
+			foreach ($file_laporan as $dfl) {
+			    $data_file_laporan_lama = [
+			        'file_laporan_lama' => $dfl['file_laporan'],
+			        'id_revisi_laporan' => $id_revisi_laporan
+			    ];
+			    
+			    $this->db->insert('file_laporan_lama', $data_file_laporan_lama);
+			}
+
+	        $this->db->delete('file_laporan', ['id_laporan' => $id_laporan]);
+
+	        foreach ($uploadedFiles as $file) {
+	            $dataFile = [
+	                'file_laporan' => $file,
+	                'id_laporan'   => $id_laporan
+	            ];
+	            $this->db->insert('file_laporan', $dataFile);
+	        }
+	    }
+
+	    $this->db->update('laporan', $data, ['id_laporan' => $id_laporan]);
+
+	    $isi_log = 'Laporan ' . $data['judul_laporan'] . ' berhasil diubah';
+	    $this->lomo->addLog($isi_log, $dataUser['id_user']);
+	    $this->session->set_flashdata('message-success', $isi_log);
+	    redirect('laporan/detailLaporan/' . $id_laporan);
+	}
+
+	public function validasiLaporan($id_laporan)
+	{
+		$dataUser = $this->admo->getDataUserAdmin();
+		
+		$data_status = [
+			'status_laporan' => $this->input->post('status_laporan', true)
+		];
+
+		$this->db->update('laporan', $data_status, ['id_laporan' => $id_laporan]);
+
+		$data = [
+			'tgl_validasi_laporan' 	=> date('Y-m-d\TH:i:s'),
+			'catatan_validasi' 		=> $this->input->post('catatan_validasi', true),
+			'id_laporan' 			=> $id_laporan,
+			'id_user'				=> $dataUser['id_user']
+		];
+		
+		if ($this->getValidasiLaporanById($id_laporan)) {
+		    $this->db->update('validasi_laporan', $data, ['id_laporan' => $id_laporan]);
+		} else {
+		    $this->db->insert('validasi_laporan', $data);
+		}
+
+		$isi_log = 'Laporan ' . $data['judul_laporan'] . ' berhasil divalidasi oleh ' . $dataUser['username'];
+		$this->lomo->addLog($isi_log, $dataUser['id_user']);
+		$this->session->set_flashdata('message-success', $isi_log);
+		redirect('laporan/detailLaporan/' . $id_laporan);
+	}
 
 	public function removeLaporan($id_laporan)
 	{

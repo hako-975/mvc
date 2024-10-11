@@ -17,10 +17,10 @@
 		<div class="col-lg-6">
 			<div class="card">
 			  <div class="card-header">
-			  	<h3 class="m-0"><i class="fas fa-fw fa-edit"></i> Ubah Laporan </h3>
+			  	<h3 class="m-0"><i class="fas fa-fw fa-edit"></i> Revisi Laporan </h3>
 			  </div>
 			  <div class="card-body">
-			  	<form action="<?= base_url('laporan/editLaporan/' . $laporan['id_laporan']); ?>" method="post" enctype="multipart/form-data">
+			  	<form action="<?= base_url('laporan/revisiLaporan/' . $laporan['id_laporan']); ?>" method="post" enctype="multipart/form-data">
 			  		<div class="form-group">
 							<label for="judul_laporan">Judul Laporan</label>
 							<textarea id="judul_laporan" class="form-control <?= (form_error('judul_laporan')) ? 'is-invalid' : ''; ?>" name="judul_laporan" required><?= (form_error('judul_laporan')) ? set_value('judul_laporan') : $laporan['judul_laporan']; ?></textarea>
@@ -129,7 +129,7 @@
 							<input type="hidden" name="id_kelurahan" value="<?= $dataUser['id_kelurahan']; ?>">
 						<?php endif ?>
 						<div class="form-group mt-5 text-right">
-							<a href="javascript:history.back()" class="btn btn-danger btn-cancel" data-nama="Ubah Laporan"><i class="fas fa-fw fa-times"></i> Batal</a>
+							<a href="javascript:history.back()" class="btn btn-danger btn-cancel" data-nama="Revisi Laporan"><i class="fas fa-fw fa-times"></i> Batal</a>
 							<button type="submit" class="btn btn-primary"><i class="fas fa-fw fa-save"></i> Simpan</button>
 						</div>
 					</form>

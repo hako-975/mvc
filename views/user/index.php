@@ -7,7 +7,7 @@
 						<div class="col-lg header-title">
 							<h3 class="m-0"><i class="fas fa-fw fa-user"></i> User</h3>
 						</div>
-						<?php if ($dataUser['jabatan'] == 'Administrator' || $dataUser['jabatan'] == 'Kepala Desa'): ?>
+						<?php if ($dataUser['jabatan'] == 'Administrator' || $dataUser['jabatan'] == 'Kepala Desa' || $dataUser['jabatan'] == 'Sekretaris Desa'): ?>
 							<div class="col-lg-4 header-button">
 								<a href="<?= base_url('user/addUser'); ?>" class="btn btn-primary"><i class="fas fa-fw fa-plus"></i> Tambah User</a>
 							</div>
@@ -27,7 +27,7 @@
 									<th class="align-middle">Kelurahan</th>
 									<th class="align-middle">Pengelola Laporan</th>
 									<th class="align-middle">Aktif</th>
-									<?php if ($dataUser['jabatan'] == 'Administrator' || $dataUser['jabatan'] == 'Kepala Desa'): ?>
+									<?php if ($dataUser['jabatan'] == 'Administrator' || $dataUser['jabatan'] == 'Kepala Desa' || $dataUser['jabatan'] == 'Sekretaris Desa'): ?>
 										<th class="align-middle">Aksi</th>
 									<?php endif ?>
 								</tr>
@@ -44,7 +44,7 @@
 										<td class="align-middle"><?= ($du['nama_kelurahan'] !== null) ? $du['nama_kelurahan'] : "-"; ?></td>
 										<td class="align-middle"><?= ($du['jenis_laporan'] !== null) ? $du['jenis_laporan'] : "-"; ?></td>
 										<td class="align-middle"><?= ($du['is_active'] == '1') ? 'Aktif' : "Nonaktif"; ?></td>
-										<?php if ($dataUser['jabatan'] == 'Administrator' || $dataUser['jabatan'] == 'Kepala Desa'): ?>
+										<?php if ($dataUser['jabatan'] == 'Administrator' || $dataUser['jabatan'] == 'Kepala Desa' || $dataUser['jabatan'] == 'Sekretaris Desa'): ?>
 											<?php if ($du['jabatan'] != 'Administrator'): ?>
 												<td class="align-middle text-center">
 													<button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#detailUserModal<?= $du['id_user']; ?>" class="btn btn-sm btn-success m-1"><i class="fas fa-fw fa-bars"></i></button>
@@ -52,7 +52,7 @@
 														<a href="<?= base_url('user/editUser/' . $du['id_user']); ?>" class="btn btn-sm btn-success m-1"><i class="fas fa-fw fa-edit"></i></a>
 														<a href="<?= base_url('user/removeUser/' . $du['id_user']); ?>" class="btn btn-sm btn-danger m-1 btn-delete" data-nama="<?= $du['username']; ?>"><i class="fas fa-fw fa-fw fa-trash"></i></a>
 													<?php else: ?>
-														<?php if ($du['jabatan'] != 'Kepala Desa'): ?>
+														<?php if ($du['jabatan'] != 'Kepala Desa' && $dataUser['jabatan'] != 'Sekretaris Desa'): ?>
 															<a href="<?= base_url('user/editUser/' . $du['id_user']); ?>" class="btn btn-sm btn-success m-1"><i class="fas fa-fw fa-edit"></i></a>
 														<?php endif ?>
 													<?php endif ?>

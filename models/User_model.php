@@ -63,7 +63,7 @@ class User_model extends CI_Model
 
 		$jabatan = htmlspecialchars($this->input->post('jabatan', true));
 
-		if ($dataUser['jabatan'] == 'Kepala Desa') {
+		if ($dataUser['jabatan'] == 'Kepala Desa' || $dataUser['jabatan'] == 'Sekretaris Desa') {
 			$id_kecamatan = $dataUser['id_kecamatan'];
 	    	$id_kelurahan = $dataUser['id_kelurahan'];
 		} else {
@@ -129,7 +129,7 @@ class User_model extends CI_Model
 		    }
 		}
 
-		if ($jabatan == "Kepala Desa") {
+		if ($jabatan == "Kepala Desa" || $jabatan == "Sekretaris Desa") {
 			if ($id_kecamatan == 0) {
 		        $this->session->set_flashdata('message-failed', 'Kecamatan harus dipilih');
 		        echo "
@@ -242,7 +242,7 @@ class User_model extends CI_Model
 		    }
 		}
 
-		if ($jabatan == "Kepala Desa") {
+		if ($jabatan == "Kepala Desa" || $jabatan == "Sekretaris Desa") {
 			if ($id_kecamatan == 0) {
 		        $this->session->set_flashdata('message-failed', 'Kecamatan harus dipilih');
 		        echo "

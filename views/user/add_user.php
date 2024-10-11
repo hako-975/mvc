@@ -72,6 +72,7 @@
 								<option value="Camat">Camat</option>
 								<option value="Kepala Bidang">Kepala Bidang</option>
 								<option value="Kepala Desa">Kepala Desa</option>
+								<option value="Sekretaris Desa">Sekretaris Desa</option>
 							<?php endif ?>
 							<option value="Operator Desa">Operator Desa</option>
 						</select>
@@ -188,6 +189,11 @@ $(document).ready(function() {
       $('#form_kelurahan_group').hide();
       $('#form_jenis_laporan_group').hide();
     } else if (jabatan === 'Kepala Desa') {
+    	$('#form_bidang_group').hide();
+      $('#form_kecamatan_group').show();
+      $('#form_kelurahan_group').show();
+      $('#form_jenis_laporan_group').hide();
+    } else if (jabatan === 'Sekretaris Desa') {
     	$('#form_bidang_group').hide();
       $('#form_kecamatan_group').show();
       $('#form_kelurahan_group').show();

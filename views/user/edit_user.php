@@ -66,6 +66,9 @@
 						    <?php if ($user['jabatan'] != 'Kepala Desa') : ?>
 					        <option value="Kepala Desa">Kepala Desa</option>
 						    <?php endif; ?>
+						    <?php if ($user['jabatan'] != 'Sekretaris Desa') : ?>
+					        <option value="Sekretaris Desa">Sekretaris Desa</option>
+						    <?php endif; ?>
 						    <?php if ($user['jabatan'] != 'Operator Desa') : ?>
 					        <option value="Operator Desa">Operator Desa</option>
 						    <?php endif; ?>
@@ -202,6 +205,11 @@ $(document).ready(function() {
       $('#form_kelurahan_group').hide();
       $('#form_jenis_laporan_group').hide();
     } else if (jabatan === 'Kepala Desa') {
+    	$('#form_bidang_group').hide();
+      $('#form_kecamatan_group').show();
+      $('#form_kelurahan_group').show();
+      $('#form_jenis_laporan_group').hide();
+    } else if (jabatan === 'Sekretaris Desa') {
     	$('#form_bidang_group').hide();
       $('#form_kecamatan_group').show();
       $('#form_kelurahan_group').show();

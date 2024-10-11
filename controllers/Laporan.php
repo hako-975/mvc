@@ -111,7 +111,7 @@ class Laporan extends CI_Controller
 				}
 			}
 		}
-		else if ($data['dataUser']['jabatan'] == 'Kepala Desa' || $data['dataUser']['jabatan'] == 'Operator Desa') {
+		else if ($data['dataUser']['jabatan'] == 'Kepala Desa' || $data['dataUser']['jabatan'] == 'Sekretaris Desa' || $data['dataUser']['jabatan'] == 'Operator Desa') {
 			$id_kecamatan = $data['dataUser']['id_kecamatan'];
 			$id_kelurahan = $data['dataUser']['id_kelurahan'];
 
@@ -202,7 +202,7 @@ class Laporan extends CI_Controller
 				$data['title']  	= 'Semua Laporan';
 			}
 		}
-		else if ($data['dataUser']['jabatan'] == 'Kepala Desa') {
+		else if ($data['dataUser']['jabatan'] == 'Kepala Desa' || $data['dataUser']['jabatan'] == 'Sekretaris Desa') {
 			$id_kecamatan = $data['dataUser']['id_kecamatan'];
 			$id_kelurahan = $data['dataUser']['id_kelurahan'];
 
@@ -352,8 +352,8 @@ class Laporan extends CI_Controller
 
 		$data['dataUser']			= $this->admo->getDataUserAdmin();
 		$data['laporan']			= $this->lamo->getLaporanById($id_laporan);
-		$data['validasi_laporan']	= $this->lamo->getValidasiLaporanByLaporanId($id_laporan);
-		$data['last_validasi_laporan']	= $this->lamo->getLastValidasiLaporanByLaporanId($id_laporan);
+		$data['revisi_laporan']		= $this->lamo->getRevisiLaporanById($id_laporan);
+		$data['validasi_laporan']	= $this->lamo->getValidasiLaporanById($id_laporan);
 		$data['title']  	= 'Detail Laporan - ' . $data['laporan']['judul_laporan'];
 
 		$this->load->view('templates/header-admin', $data);
@@ -420,7 +420,7 @@ class Laporan extends CI_Controller
 		}
 	}
 
-	public function editLaporan($id_laporan = "", $revisi = false)
+	public function editLaporan($id_laporan = "")
 	{
 		if ($id_laporan == null) {
 	        echo "
@@ -443,10 +443,6 @@ class Laporan extends CI_Controller
 		    }
 	    }
 		
-		if ($revisi) {
-			$data['revisi'] = true;
-		}
-		
 		$data['file_laporan']	= $this->lamo->getFileLaporanById($id_laporan);
 		$data['jenis_laporan']	= $this->jelamo->getJenisLaporan();
 		$data['title'] 		= 'Ubah Laporan  - ' . $data['laporan']['judul_laporan'];
@@ -465,6 +461,50 @@ class Laporan extends CI_Controller
 		    $this->load->view('templates/include/form_kecamatan', $data);  
 		} else {
 		    $this->lamo->editLaporan($id_laporan);
+		}
+	}
+
+	public function revisiLaporan($id_laporan = "")
+	{
+		if ($id_laporan == null) {
+	        echo "
+				<script>
+					window.history.back();
+				</script>
+			";
+			exit;
+		}
+
+		$data['dataUser']	= $this->admo->getDataUserAdmin();
+		$data['laporan'] = $this->lamo->getLaporanById($id_laporan);
+		if ($data['dataUser']['jabatan'] == 'Operator Desa') {
+		    if ($data['laporan']['id_jenis_laporan'] != $data['dataUser']['id_jenis_laporan']) {
+		    	$isi = 'Akses ditolak! Karena Jenis Laporan ' . $data['laporan']['jenis_laporan'] . ' tidak sesuai dengan Pengelola Jenis Laporan! Hubungi Administrator untuk melakukan perubahan';
+	            $this->session->set_flashdata('message-failed', $isi);
+	            $this->lomo->addLog($isi, $data['dataUser']['id_user']);
+	            redirect('laporan/index/' . $data['dataUser']['jenis_laporan']);
+	            exit();
+		    }
+	    }
+		
+		$data['file_laporan']	= $this->lamo->getFileLaporanById($id_laporan);
+		$data['jenis_laporan']	= $this->jelamo->getJenisLaporan();
+		$data['title'] 		= 'Revisi Laporan  - ' . $data['laporan']['judul_laporan'];
+		$data['kelurahan']	= $this->kelmo->getKelurahan();
+		$data['kecamatan']	= $this->kemo->getKecamatan();
+		
+		$this->form_validation->set_rules('judul_laporan', 'Judul Laporan', 'required|trim');
+		$this->form_validation->set_rules('tgl_laporan', 'Tanggal Laporan', 'required|trim');
+		$this->form_validation->set_rules('tahun_kegiatan', 'Tahun Kegiatan', 'required|trim');
+		$this->form_validation->set_rules('id_jenis_laporan', 'Jenis Laporan', 'required|trim');
+		$this->form_validation->set_rules('id_kelurahan', 'Kelurahan/Desa', 'required|trim');
+		if ($this->form_validation->run() == false) {
+		    $this->load->view('templates/header-admin', $data);
+		    $this->load->view('laporan/revisi_laporan', $data);
+		    $this->load->view('templates/footer-admin', $data);  
+		    $this->load->view('templates/include/form_kecamatan', $data);  
+		} else {
+		    $this->lamo->revisiLaporan($id_laporan);
 		}
 	}
 
@@ -522,7 +562,22 @@ class Laporan extends CI_Controller
 	public function getLaporanBelumDivalidasi()
 	{
 		$dataUser = $this->admo->getDataUserAdmin();
-	    $laporan  = $this->lamo->getLaporanBelumDivalidasi();
+
+	    if ($dataUser['jabatan'] == 'Administrator' || $dataUser['jabatan'] == 'Pimpinan') {
+			$laporan = $this->lamo->getLaporanBelumDivalidasi();
+		}
+		elseif ($dataUser['jabatan'] == 'Camat') {
+			$id_kecamatan = $dataUser['id_kecamatan'];
+			$laporan = $this->lamo->getLaporanBelumDivalidasiByIdKecamatan($id_kecamatan);
+		}
+		else if ($dataUser['jabatan'] == 'Kepala Bidang') {
+			$id_bidang = $dataUser['id_bidang'];
+			$laporan = $this->lamo->getLaporanBelumDivalidasiByIdBidang($id_bidang);
+		}
+		else if ($dataUser['jabatan'] == 'Kepala Desa' || $dataUser['jabatan'] == 'Sekretaris Desa' || $dataUser['jabatan'] == 'Operator Desa') {
+			$id_kelurahan = $dataUser['id_kelurahan'];
+			$laporan = $this->lamo->getLaporanBelumDivalidasiByIdKelurahan($id_kelurahan);
+		}
 
 	    foreach ($laporan as &$msg) {
 	        $msg['tgl_laporan'] = date('d-m-Y, H:i', strtotime($msg['tgl_laporan'])) . ' WIB';

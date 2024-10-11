@@ -22,7 +22,7 @@ class User extends CI_Controller
 		$data['title']  	= 'User';
 
 		$data['user']	= $this->usmo->getUser();
-		if ($data['dataUser']['jabatan'] == 'Kepala Desa') {
+		if ($data['dataUser']['jabatan'] == 'Kepala Desa' || $data['dataUser']['jabatan'] == 'Sekretaris Desa') {
 			$id_kelurahan = $data['dataUser']['id_kelurahan'];
 			$data['user']	= $this->usmo->getUserByKelurahanId($id_kelurahan);
 		}
@@ -77,7 +77,7 @@ class User extends CI_Controller
 		$data['title'] 		= 'Ubah User - ' . $data['user']['username'];
 		
 		if ($data['dataUser']['jabatan'] != 'Administrator') {
-			if ($data['user']['jabatan'] == 'Kepala Desa') {
+			if ($data['user']['jabatan'] == 'Kepala Desa' || $data['user']['jabatan'] == 'Sekretaris Desa') {
 			 	echo "
 					<script>
 						window.history.back();

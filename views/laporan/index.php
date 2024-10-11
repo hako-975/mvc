@@ -7,7 +7,7 @@
 						<div class="col-lg header-title">
 							<?php if (isset($nama_jenis_laporan)): ?>
 								<h3 class="m-0"><i class="fas fa-fw fa-file-alt"></i> 
-								<?php if ($dataUser['jabatan'] == 'Administrator' || $dataUser['jabatan'] == 'Kepala Desa' || $dataUser['jabatan'] == 'Operator Desa'): ?>
+								<?php if ($dataUser['jabatan'] == 'Administrator' || $dataUser['jabatan'] == 'Kepala Desa' || $dataUser['jabatan'] == 'Sekretaris Desa' || $dataUser['jabatan'] == 'Operator Desa'): ?>
 									Laporan 
 								<?php endif ?>
 									<?= $nama_jenis_laporan; ?></h3>
@@ -17,7 +17,7 @@
 								<h3 class="m-0"><i class="fas fa-fw fa-copy"></i> Semua Laporan</h3>
 							<?php endif ?>
 						</div>
-						<?php if ($dataUser['jabatan'] == 'Administrator' || $dataUser['jabatan'] == 'Kepala Desa' || $dataUser['jabatan'] == 'Operator Desa'): ?>
+						<?php if ($dataUser['jabatan'] == 'Administrator' || $dataUser['jabatan'] == 'Kepala Desa' || $dataUser['jabatan'] == 'Sekretaris Desa' || $dataUser['jabatan'] == 'Operator Desa'): ?>
 							<div class="col-lg-4 header-button">
 								<?php if (isset($nama_jenis_laporan)): ?>
 									<a href="<?= base_url('laporan/addLaporan/' . $nama_jenis_laporan); ?>" class="btn btn-primary"><i class="fas fa-fw fa-plus"></i> Tambah Laporan <?= $nama_jenis_laporan; ?></a>
@@ -141,7 +141,7 @@
 									</div>
 				              	</div>
 				            <?php endif ?>
-							<?php if ($dataUser['jabatan'] == 'Administrator' || $dataUser['jabatan'] == 'Pimpinan' || $dataUser['jabatan'] == 'Camat' || $dataUser['jabatan'] == 'Kepala Desa'): ?>
+							<?php if ($dataUser['jabatan'] == 'Administrator' || $dataUser['jabatan'] == 'Pimpinan' || $dataUser['jabatan'] == 'Camat' || $dataUser['jabatan'] == 'Kepala Desa' || $dataUser['jabatan'] == 'Sekretaris Desa'): ?>
 				              	<div class="col-lg-2">
 									<div class="form-group">
 										<label for="id_jenis_laporan">Jenis Laporan</label>

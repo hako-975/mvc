@@ -65,7 +65,7 @@ class Admin_model extends CI_Model
 	public function userPrivilegeDesa($redirect = 'admin', $isi2 = '')
 	{
 		$dataUser = $this->getDataUserAdmin();
-		if ($dataUser['jabatan'] != 'Administrator' && $dataUser['jabatan'] != 'Kepala Desa' && $dataUser['jabatan'] != 'Operator Desa') {
+		if ($dataUser['jabatan'] != 'Administrator' && $dataUser['jabatan'] != 'Kepala Desa' && $dataUser['jabatan'] != 'Sekretaris Desa' && $dataUser['jabatan'] != 'Operator Desa') {
 			$isi = 'Akses ditolak! Karena jabatan anda sebagai ' . $dataUser['jabatan'] . '! Hubungi Administrator untuk melakukan perubahan';
 			$isi .= ucfirst($isi2);
 

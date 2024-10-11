@@ -39,7 +39,7 @@
 					</p>
 					
 					<p><strong>Laporan dibuat oleh:</strong> <br> <?= $laporan['username']; ?></p>
-					<?php if ($dataUser['jabatan'] == 'Administrator' || $dataUser['jabatan'] == 'Kepala Desa' || $dataUser['jabatan'] == 'Operator Desa'): ?>
+					<?php if ($dataUser['jabatan'] == 'Administrator' || $dataUser['jabatan'] == 'Kepala Desa' || $dataUser['jabatan'] == 'Sekretaris Desa' || $dataUser['jabatan'] == 'Operator Desa'): ?>
 						<?php if ($dataUser['jabatan'] == 'Administrator' || $laporan['status_laporan'] == 'Belum Divalidasi'): ?>
 							<hr>
 							<a href="<?= base_url('laporan/editLaporan/' . $laporan['id_laporan']); ?>" class="btn btn-sm btn-success m-1"><i class="fas fa-fw fa-edit"></i></a>
@@ -59,9 +59,8 @@
 						<!-- Validasi -->
 						<?php if ($dataUser['jabatan'] == 'Administrator' || $dataUser['jabatan'] == 'Camat' || $dataUser['jabatan'] == 'Kepala Bidang'): ?>
 							<div class="col-lg text-right">
-								<a href="<?= base_url('laporan/editLaporan/' . $laporan['id_laporan']); ?>"></a>
 								<button type="button" class="btn btn-sm btn-success m-1" data-toggle="modal" data-target="#editStatusModal">
-								  <i class="fas fa-fw fa-edit"></i>
+								  <i class="fas fa-fw fa-edit"></i> Validasi
 								</button>
 							</div>
 						<?php endif ?>
@@ -77,6 +76,9 @@
 						<?php else: ?>
 							<button <?= ($dataUser['jabatan'] == 'Administrator' || $dataUser['jabatan'] == 'Camat' || $dataUser['jabatan'] == 'Kepala Bidang') ? 'data-toggle="modal" data-target="#editStatusModal"' : ''; ?> class="mt-2 btn btn-danger"><i class="fas fa-fw fa-times-circle"></i> <?= $laporan['status_laporan']; ?></button>
 						<?php endif ?>
+						<br><br>
+						<p><strong>Catatan Validasi:</strong> <br> <?= isset($validasi_laporan) ? ($validasi_laporan['catatan_validasi']) ? $validasi_laporan['catatan_validasi'] : '-' : '-'; ?></p>
+            <p><strong>Tanggal Validasi Laporan:</strong> <br> <?= isset($validasi_laporan) ? (date('d/m/Y, H:i', strtotime($validasi_laporan['tgl_validasi_laporan']))) : '-'; ?></p>
 					</div>
 					<div class="form-group">
 						<strong>Transparansi Laporan:</strong><br>
@@ -106,9 +108,9 @@
             	<?php endif ?>
             </p>
 					</div>
-					<?php if (isset($validasi_laporan)): ?>
+					<?php if (isset($revisi_laporan)): ?>
 						<div class="accordion" id="accordionValidasiLaporan">
-							<?php foreach ($validasi_laporan as $index => $dvl): ?>
+							<?php foreach ($revisi_laporan as $index => $drl): ?>
 						    <div class="card">
 					        <div class="card-header" id="heading<?= $index ?>">
 				            <h2 class="mb-0">
@@ -118,21 +120,46 @@
 				            </h2>
 					        </div>
 
-					        <div id="collapse<?= $index ?>" class="collapse <?= $index === count($validasi_laporan) - 1 ? 'show' : '' ?>" aria-labelledby="heading<?= $index ?>" data-parent="#accordionValidasiLaporan">
+					        <div id="collapse<?= $index ?>" class="collapse <?= $index === count($revisi_laporan) - 1 ? 'show' : '' ?>" aria-labelledby="heading<?= $index ?>" data-parent="#accordionValidasiLaporan">
 				            <div class="card-body">
-		                	<p><strong>Catatan Validasi:</strong> <br> <?= ($dvl['catatan_validasi']) ? $dvl['catatan_validasi'] : '-'; ?></p>
-			                <p><strong>Tanggal Validasi Laporan:</strong> <br> <?= date('d/m/Y, H:i', strtotime($dvl['tgl_validasi_laporan'])); ?></p>
-			                <p><strong>Divalidasi oleh:</strong> <br> <?= $dvl['username']; ?></p>
+		                	<strong>File Laporan (Sebelumnya):</strong>
+			                <?php 
+												$file_laporan_lama = $this->db->get_where('file_laporan_lama', ['id_revisi_laporan' => $drl['id_revisi_laporan']])->result_array();
+											?>
+											<?php if ($file_laporan_lama != null): ?>
+												<ul class="pl-4 mb-0 pb-0">
+													<?php foreach ($file_laporan_lama as $dfl): ?>
+														<li><a download href="<?= base_url('file/downloadOriginal/'. $dfl['file_laporan_lama']); ?>"><?= $dfl['file_laporan_lama']; ?></a></li>	
+													<?php endforeach ?>
+												</ul>
+											<?php else: ?>
+												<span>-</span>
+											<?php endif ?>
+											<br>
+											<strong>File Laporan (Revisi):</strong>
+			                <?php 
+												$file_laporan = $this->db->get_where('file_laporan', ['id_laporan' => $drl['id_laporan']])->result_array();
+											?>
+											<?php if ($file_laporan != null): ?>
+												<ul class="pl-4">
+													<?php foreach ($file_laporan as $dfl): ?>
+														<li><a download href="<?= base_url('file/downloadOriginal/'. $dfl['file_laporan']); ?>"><?= $dfl['file_laporan']; ?></a></li>	
+													<?php endforeach ?>
+												</ul>
+											<?php else: ?>
+												<span>-</span>
+											<?php endif ?>
+			                <p><strong>Direvisi oleh:</strong> <br> <?= ($drl['username'] == null) ? '-' : $drl['username']; ?></p>
 				            </div>
 					        </div>
 						    </div>
 							<?php endforeach ?>
-
 						</div>
-						<?php if ($dataUser['jabatan'] == 'Kepala Desa' || $dataUser['jabatan'] == 'Operator Desa'): ?>
-							<?php if ($laporan['status_laporan'] != 'Valid'): ?>
-								<a class="btn btn-success" href="<?= base_url('laporan/editLaporan/' . $laporan['id_laporan'] . '/revisi'); ?>"><i class="fas fa-fw fa-edit"></i> Revisi</a>
-							<?php endif ?>
+					<?php endif ?>
+
+					<?php if ($dataUser['jabatan'] == 'Kepala Desa' || $dataUser['jabatan'] == 'Sekretaris Desa' || $dataUser['jabatan'] == 'Operator Desa'): ?>
+						<?php if ($laporan['status_laporan'] != 'Valid'): ?>
+							<a class="btn btn-success" href="<?= base_url('laporan/revisiLaporan/' . $laporan['id_laporan']); ?>"><i class="fas fa-fw fa-edit"></i> Revisi</a>
 						<?php endif ?>
 					<?php endif ?>
 				</div>
@@ -188,7 +215,7 @@
     <form action="<?= base_url('laporan/validasiLaporan/' . $laporan['id_laporan']); ?>" method="post">
 	    <div class="modal-content">
 	      <div class="modal-header">
-	        <h5 class="modal-title" id="editStatusModalLabel"><i class="fas fa-fw fa-edit"></i> Ubah Status Laporan</h5>
+	        <h5 class="modal-title" id="editStatusModalLabel"><i class="fas fa-fw fa-edit"></i> Validasi Laporan</h5>
 	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
 	          <span aria-hidden="true">&times;</span>
 	        </button>
@@ -196,36 +223,17 @@
 	      <div class="modal-body">
 					<div class="form-group">
 						<label for="catatan_validasi">Catatan Validasi (Opsional)</label>
-						<textarea id="catatan_validasi" class="form-control <?= (form_error('catatan_validasi')) ? 'is-invalid' : ''; ?>" name="catatan_validasi"><?= (form_error('catatan_validasi')) ? set_value('catatan_validasi') : (isset($last_validasi_laporan['catatan_validasi']) ? $last_validasi_laporan['catatan_validasi'] : ''); ?></textarea>
+						<textarea id="catatan_validasi" class="form-control <?= (form_error('catatan_validasi')) ? 'is-invalid' : ''; ?>" name="catatan_validasi"></textarea>
 						<div class="invalid-feedback">
               <?= form_error('catatan_validasi'); ?>
             </div>
 					</div>
 					<div class="form-group">
 		        <label>Status Laporan:</label><br>
-		        <?php if (isset($last_validasi_laporan['catatan_validasi'])): ?>
-					    <?php if ($laporan['status_laporan'] == "Valid"): ?>
-				        <input type="radio" id="valid" name="status_laporan" value="Valid" checked required>
-				        <label for="valid" class="btn btn-success"><i class="fas fa-fw fa-check-circle"></i> Valid</label><br>
-				        <input type="radio" id="tidak_valid" name="status_laporan" value="Tidak Valid" required>
-				        <label for="tidak_valid" class="btn btn-danger"><i class="fas fa-fw fa-times-circle"></i> Tidak Valid</label><br>
-					    <?php elseif ($laporan['status_laporan'] == "Tidak Valid"): ?>
-				        <input type="radio" id="valid" name="status_laporan" value="Valid" required>
-				        <label for="valid" class="btn btn-success"><i class="fas fa-fw fa-check-circle"></i> Valid</label><br>
-				        <input type="radio" id="tidak_valid" name="status_laporan" value="Tidak Valid" checked required>
-				        <label for="tidak_valid" class="btn btn-danger"><i class="fas fa-fw fa-times-circle"></i> Tidak Valid</label><br>
-					    <?php else: ?>
-					    	<input type="radio" id="valid" name="status_laporan" value="Valid" required>
-				        <label for="valid" class="btn btn-success"><i class="fas fa-fw fa-check-circle"></i> Valid</label><br>
-				        <input type="radio" id="tidak_valid" name="status_laporan" value="Tidak Valid" required>
-				        <label for="tidak_valid" class="btn btn-danger"><i class="fas fa-fw fa-times-circle"></i> Tidak Valid</label><br>
-					    <?php endif ?>
-						<?php else: ?>
-					    <input type="radio" id="valid" name="status_laporan" value="Valid" required>
-					    <label for="valid" class="btn btn-success"><i class="fas fa-fw fa-check-circle"></i> Valid</label><br>
-					    <input type="radio" id="tidak_valid" name="status_laporan" value="Tidak Valid" required>
-					    <label for="tidak_valid" class="btn btn-danger"><i class="fas fa-fw fa-times-circle"></i> Tidak Valid</label><br>
-						<?php endif ?>
+				    <input type="radio" id="valid" name="status_laporan" value="Valid" required>
+				    <label for="valid" class="btn btn-success"><i class="fas fa-fw fa-check-circle"></i> Valid</label><br>
+				    <input type="radio" id="tidak_valid" name="status_laporan" value="Tidak Valid" required>
+				    <label for="tidak_valid" class="btn btn-danger"><i class="fas fa-fw fa-times-circle"></i> Tidak Valid</label><br>
 			    </div>
 		    </div>
 	      <div class="modal-footer">
