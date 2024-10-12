@@ -55,7 +55,7 @@
 						<?php endif ?>
 					</div>
 					<div class="form-group">
-						<label for="nama_kelurahan">Nama Kelurahan</label>
+						<label for="nama_kelurahan">Nama Kelurahan/Desa</label>
 						<input type="text" id="nama_kelurahan" class="form-control <?= (form_error('nama_kelurahan')) ? 'is-invalid' : ''; ?>" name="nama_kelurahan" required value="<?= set_value('nama_kelurahan'); ?>">
 						<div class="invalid-feedback">
               <?= form_error('nama_kelurahan'); ?>

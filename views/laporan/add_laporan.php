@@ -100,7 +100,7 @@
 		            </div>
 							</div>
 							<div class="form-group">
-								<label for="form_kelurahan">Kelurahan</label>
+								<label for="form_kelurahan">Kelurahan/Desa</label>
 								<select id="form_kelurahan" class="custom-select <?= (form_error('id_kelurahan')) ? 'is-invalid' : ''; ?>" name="id_kelurahan" required>
 									<option value="0">--- Pilih Kecamatan ---</option>
 								</select>

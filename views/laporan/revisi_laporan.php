@@ -108,7 +108,7 @@
 								</select>
 							</div>
 							<div class="form-group">
-								<label for="form_kelurahan">Kelurahan</label>
+								<label for="form_kelurahan">Kelurahan/Desa</label>
 								<select id="form_kelurahan" class="custom-select" name="id_kelurahan">
 									<?php 
 										$getKelurahanByIdKecamatan = $this->db->get_where('kelurahan', ['id_kecamatan' => $laporan['id_kecamatan']])->result_array();

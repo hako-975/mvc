@@ -122,7 +122,7 @@
 					
 					<?php if ($dataUser['jabatan'] == 'Administrator'): ?>
 						<div class="form-group" id="form_kelurahan_group">
-							<label for="form_kelurahan">Kelurahan</label>
+							<label for="form_kelurahan">Kelurahan/Desa</label>
 							<select id="form_kelurahan" class="custom-select <?= (form_error('id_kelurahan')) ? 'is-invalid' : ''; ?>" name="id_kelurahan">
 								<option value="0">--- Pilih Kecamatan ---</option>
 							</select>
@@ -132,7 +132,7 @@
 						</div>
 					<?php else: ?>
 						<div class="form-group">
-							<label for="id_kelurahan">Kelurahan</label>
+							<label for="id_kelurahan">Kelurahan/Desa</label>
 							<select id="form_kelurahan" class="custom-select <?= (form_error('id_kelurahan')) ? 'is-invalid' : ''; ?>" name="id_kelurahan">
 								<option value="<?= $dataUser['id_kelurahan']; ?>"><?= $dataUser['nama_kelurahan']; ?></option>
 							</select>

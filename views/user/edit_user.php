@@ -124,7 +124,7 @@
 						<?php endif ?>
 						<?php if ($dataUser['jabatan'] == 'Administrator'): ?>
 							<div class="form-group" id="form_kelurahan_group">
-								<label for="form_kelurahan">Kelurahan</label>
+								<label for="form_kelurahan">Kelurahan/Desa</label>
 								<select id="form_kelurahan" class="custom-select" name="id_kelurahan">
 									<?php 
 										$getKelurahanByIdKecamatan = $this->db->get_where('kelurahan', ['id_kecamatan' => $user['id_kecamatan']])->result_array();
@@ -143,7 +143,7 @@
 							</div>
 						<?php else: ?>
 							<div class="form-group">
-								<label for="id_kelurahan">Kelurahan</label>
+								<label for="id_kelurahan">Kelurahan/Desa</label>
 								<select id="id_kelurahan" class="custom-select" name="id_kelurahan">
 									<option value="<?= $dataUser['id_kelurahan']; ?>"><?= $dataUser['nama_kelurahan']; ?></option>
 								</select>

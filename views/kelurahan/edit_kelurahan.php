@@ -36,7 +36,7 @@
 	            </div>
 						</div>
 						<div class="form-group">
-							<label for="nama_kelurahan">Kelurahan</label>
+							<label for="nama_kelurahan">Kelurahan/Desa</label>
 							<input type="text" id="nama_kelurahan" class="form-control <?= (form_error('nama_kelurahan')) ? 'is-invalid' : ''; ?>" name="nama_kelurahan" required value="<?= (form_error('nama_kelurahan')) ? set_value('nama_kelurahan') : $kelurahan['nama_kelurahan']; ?>">
 							<div class="invalid-feedback">
 				              <?= form_error('nama_kelurahan'); ?>

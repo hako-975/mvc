@@ -70,7 +70,7 @@
 								</div>
 				              	<div class="col-lg-2">
 									<div class="form-group">
-										<label for="form_kelurahan">Kelurahan</label>
+										<label for="form_kelurahan">Kelurahan/Desa</label>
 										<select id="form_kelurahan" class="custom-select <?= (form_error('id_kelurahan')) ? 'is-invalid' : ''; ?>" name="id_kelurahan">
 										    <?php 
 										    if (isset($_GET['id_kecamatan'])) {
@@ -106,7 +106,7 @@
 				            <?php elseif ($dataUser['jabatan'] == 'Camat'): ?>
 				              	<div class="col-lg-2">
 									<div class="form-group">
-										<label for="form_kelurahan">Kelurahan</label>
+										<label for="form_kelurahan">Kelurahan/Desa</label>
 										<select id="form_kelurahan" class="custom-select <?= (form_error('id_kelurahan')) ? 'is-invalid' : ''; ?>" name="id_kelurahan">
 										    <?php 
 										    if (isset($dataUser['id_kecamatan'])) {
