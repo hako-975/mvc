@@ -5,7 +5,7 @@
 
 <?php if($data == "kelurahan") : ?>
 	<select id="form_kelurahan" name="id_kelurahan">
-		<option value="0">--- Pilih Kelurahan ---</option>
+		<option value="0">--- Pilih Kelurahan/Desa ---</option>
 		<?php 
 			$this->db->order_by('nama_kelurahan', 'asc');
 			$kelurahan = $this->db->get_where('kelurahan', ['kelurahan.id_kecamatan' => $id])->result_array();

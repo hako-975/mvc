@@ -86,14 +86,14 @@
 										    ?>
 										    <?php if ($getNamaKelurahanByIdKelurahan != null): ?>
 										        <option value="<?= $_GET['id_kelurahan']; ?>"><?= $getNamaKelurahanByIdKelurahan['nama_kelurahan']; ?></option>
-										        <option value="0">Pilih Kelurahan</option>
+										        <option value="0">Pilih Kelurahan/Desa</option>
 										        <?php foreach ($getKelurahanByIdKecamatan as $dataKelurahan): ?>
 										            <?php if ($dataKelurahan['id_kelurahan'] != $_GET['id_kelurahan']): ?>
 										                <option value="<?= $dataKelurahan['id_kelurahan']; ?>"><?= $dataKelurahan['nama_kelurahan']; ?></option>
 										            <?php endif ?>
 										        <?php endforeach ?>
 										    <?php else: ?>
-										        <option value="0">Pilih Kelurahan</option>
+										        <option value="0">Pilih Kelurahan/Desa</option>
 										        <?php if ($getKelurahanByIdKecamatan != null): ?>
 										            <?php foreach ($getKelurahanByIdKecamatan as $dataKelurahan): ?>
 										                <option value="<?= $dataKelurahan['id_kelurahan']; ?>"><?= $dataKelurahan['nama_kelurahan']; ?></option>
@@ -123,14 +123,14 @@
 										    ?>
 										    <?php if ($getNamaKelurahanByIdKelurahan != null): ?>
 										        <option value="<?= $_GET['id_kelurahan']; ?>"><?= $getNamaKelurahanByIdKelurahan['nama_kelurahan']; ?></option>
-										        <option value="0">Pilih Kelurahan</option>
+										        <option value="0">Pilih Kelurahan/Desa</option>
 										        <?php foreach ($getKelurahanByIdKecamatan as $dataKelurahan): ?>
 										            <?php if ($dataKelurahan['id_kelurahan'] != $_GET['id_kelurahan']): ?>
 										                <option value="<?= $dataKelurahan['id_kelurahan']; ?>"><?= $dataKelurahan['nama_kelurahan']; ?></option>
 										            <?php endif ?>
 										        <?php endforeach ?>
 										    <?php else: ?>
-										        <option value="0">Pilih Kelurahan</option>
+										        <option value="0">Pilih Kelurahan/Desa</option>
 										        <?php if ($getKelurahanByIdKecamatan != null): ?>
 										            <?php foreach ($getKelurahanByIdKecamatan as $dataKelurahan): ?>
 										                <option value="<?= $dataKelurahan['id_kelurahan']; ?>"><?= $dataKelurahan['nama_kelurahan']; ?></option>

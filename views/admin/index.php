@@ -89,7 +89,7 @@
 													</select>
 												<?php elseif ($dataUser['jabatan'] == 'Camat'): ?>
 													<select name="id_kelurahan" id="id_kelurahan<?= $i; ?>" class="custom-select">
-														<option value="0">--- Pilih Kelurahan ---</option>
+														<option value="0">--- Pilih Kelurahan/Desa ---</option>
 														<?php foreach ($kelurahan as $dk): ?>
 															<option value="<?= $dk['id_kelurahan']; ?>"><?= $dk['nama_kelurahan']; ?></option>
 														<?php endforeach ?>

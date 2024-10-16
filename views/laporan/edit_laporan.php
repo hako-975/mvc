@@ -66,7 +66,7 @@
 
 						  		<input class="file-input-drop" id="file_laporan" type="file" name="file_laporan[]" multiple>
 							</div>
-							<span>Maksimal ukuran per file 15 MB</span>
+							<span>Maksimal ukuran per file 150 MB</span>
 						</div>
 						<?php if ($dataUser['jabatan'] != 'Operator Desa'): ?>
 							<div class="form-group">
